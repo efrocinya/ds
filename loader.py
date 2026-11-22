@@ -15,9 +15,7 @@ def send_to_kafka():
     total = 0
 
     for chunk in pd.read_csv(csv_path, chunksize=chunk_size): 
-        #Убрать ограничение! 
-        if total > 10000:
-            break 
+        
         for record in chunk.to_dict(orient="records"):
             value = json.dumps(record, ensure_ascii=False).encode("utf-8")
             producer.produce(topik, value=value, callback=delivery_report)
